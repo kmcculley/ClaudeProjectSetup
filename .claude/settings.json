@@ -1,20 +1,32 @@
 {
-  "skills": {
-    "auto_activation": true,
-    "discovery_paths": [".claude/skills"],
-    "max_context_lines": 500
+  "includeCoAuthoredBy": true,
+  "model": "claude-sonnet-4-5-20250929",
+  "outputStyle": "Explanatory",
+  "cleanupPeriodDays": 30,
+  "permissions": {
+    "allow": [
+      "Bash(date)",
+      "Bash(git *)",
+      "Bash(npm *)",
+      "Bash(dotnet *)",
+      "Bash(docker *)",
+      "WebSearch(*)",
+      "WebFetch(*)"
+    ],
+    "ask": [
+      "Bash(git push*)",
+      "Bash(rm *)",
+      "Bash(docker rm*)"
+    ],
+    "deny": [
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/appsettings.*.json)"
+    ]
   },
-  "hooks": {
+  "sandbox": {
     "enabled": true,
-    "discovery_paths": [".claude/hooks"]
-  },
-  "agents": {
-    "enabled": true,
-    "discovery_paths": [".claude/agents"]
-  },
-  "preferences": {
-    "current_date_awareness": true,
-    "always_latest_stable": true,
-    "tech_stack_detection": true
+    "autoAllowBashIfSandboxed": true,
+    "excludedCommands": ["git", "docker", "npm", "dotnet"]
   }
 }

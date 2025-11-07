@@ -5,8 +5,8 @@ A comprehensive Claude Code setup for multi-platform development with automatic 
 ## Overview
 
 This infrastructure solves the common problem of Claude suggesting outdated libraries and frameworks by:
-- 🗓️ **Dynamic Date Awareness**: Automatically checks current system date and researches latest stable versions
-- 🎯 **Auto-Skill Activation**: Detects project type and applies appropriate development standards
+- 🗓️ **Dynamic Date Awareness**: Instructions force Claude to check current system date and research latest stable versions
+- 🎯 **Project Detection & Skill Loading**: Claude detects project type and loads appropriate skill documentation
 - 📋 **Consistent Standards**: Enforces naming conventions and project structure across all work
 - 🔧 **Modern Practices**: Uses current best practices for each technology stack
 - 🔍 **Real-Time Research**: Web searches for current versions instead of relying on static knowledge
@@ -28,16 +28,16 @@ This infrastructure solves the common problem of Claude suggesting outdated libr
 
 ## Quick Start
 
-1. **Copy Configuration**: Place the `.claude/` folder in your development directory
-2. **Activate Skills**: Skills auto-activate based on project file detection
+1. **Copy Configuration**: Place `CLAUDE.md` and `.claude/` folder in your development directory
+2. **Start Session**: On first message, Claude detects project type and loads appropriate skill
 3. **Follow Standards**: All generated code follows your established conventions
 
 ## Key Features
 
-### Automatic Project Detection
+### Project Detection on First Message
 ```
-🎯 Auto-detected: React Frontend Application
-📋 Activated Skill: react-frontend  
+🎯 Detected: React Frontend Application
+📋 Loading Skill: .claude/skills/react-frontend.md
 📅 Checking current date and researching latest stable versions
 🔧 Ready to assist with current React + TypeScript + Vite versions
 ```
@@ -104,31 +104,42 @@ Each skill provides:
 
 ## Configuration Files
 
-### `.claude/settings.json`
-Core configuration enabling auto-activation and skill discovery.
+### `CLAUDE.md`
+Main project instructions file that auto-loads with Claude Code. Contains:
+- Date checking requirements
+- Development standards and preferences
+- Project detection logic with explicit skill loading instructions
 
-### `.claude/hooks/`
-- `context-enhancer.md` - Dynamically checks system date and provides tech stack context
-- `skill-auto-activation.md` - Auto-detects project types and researches current versions
+### `.claude/settings.json`
+Claude Code configuration with real settings:
+- Permission presets (allow/ask/deny patterns)
+- Sandbox configuration
+- Model and output preferences
 
 ### `.claude/skills/`
-Individual skill files for each project type with comprehensive guidance.
+Technology-specific skill files that Claude reads when a project type is detected:
+- `dotnet-blazor-web.md` - Blazor web applications
+- `dotnet-avalonia-desktop.md` - Desktop applications
+- `react-frontend.md` - React applications
+- `nodejs-api.md` - Express REST APIs
+- `react-native-mobile.md` - Mobile applications
+- `unity-game-development.md` - Game development
 
 ## Usage Examples
 
 ### Starting a New Blazor Project
-Claude detects `.csproj` with Blazor references and automatically:
-- Checks current date and researches latest stable .NET version
-- Sets up feature-based folder structure
-- Configures xUnit testing with proper coverage
-- Sets up GitHub Actions with manual deployment gates
+On first message, Claude:
+1. Detects `.csproj` with Blazor references
+2. Loads `.claude/skills/dotnet-blazor-web.md`
+3. Checks current date and researches latest stable .NET version
+4. Follows skill guidance for structure, testing, and deployment
 
 ### React Frontend Development
-Claude detects `package.json` with React and automatically:
-- Researches current React + TypeScript + Vite versions
-- Configures ESLint + Prettier + Playwright
-- Sets up static hosting deployment
-- Applies consistent naming conventions
+On first message, Claude:
+1. Detects `package.json` with React
+2. Loads `.claude/skills/react-frontend.md`
+3. Researches current React + TypeScript + Vite versions
+4. Applies skill-specific patterns and conventions
 
 ## Benefits
 
@@ -144,10 +155,24 @@ This infrastructure transforms Claude from a general coding assistant into a spe
 
 ## How Dynamic Date Awareness Works
 
-The system ensures version currency through:
-1. **System Date Checking**: Always runs `date` command first to get actual current date
-2. **Web Research**: Searches for "latest stable version [technology] [current year]" 
-3. **No Hardcoded Dates**: All version references are research-based, not static
-4. **Automatic Updates**: Works correctly in December 2025, 2026, and beyond without any manual updates
+The system ensures version currency through explicit instructions in `CLAUDE.md`:
+1. **Mandatory Date Checking**: CLAUDE.md instructs Claude to always run `date` command first
+2. **Web Research Required**: Instructions force web search for "latest stable version [technology] [current year]"
+3. **No Hardcoded Versions**: Skills files instruct research, not hardcoded version numbers
+4. **Future-Proof**: Works correctly in 2025, 2026, and beyond without updates
 
 This means you'll never get outdated library suggestions, regardless of how much time passes.
+
+## How the System Actually Works
+
+This is **not** an auto-activation system. Instead:
+
+1. **CLAUDE.md** is automatically loaded by Claude Code as project instructions
+2. **CLAUDE.md** explicitly instructs Claude to:
+   - Detect project type on first message
+   - Use the Read tool to load the appropriate skill file
+   - Follow that skill's guidance throughout the session
+3. **Skill files** contain detailed technology-specific guidance
+4. **settings.json** configures Claude Code's real features (permissions, sandbox, etc.)
+
+The "magic" is simply well-structured instructions that Claude follows reliably.

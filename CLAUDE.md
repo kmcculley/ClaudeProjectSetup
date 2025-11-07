@@ -52,30 +52,41 @@ ProjectName/
 - **Error Handling**: Centralized error handling patterns
 - **Security**: Never expose secrets, follow OWASP guidelines
 
-## Auto-Activation Skills
+## Project Detection & Skill Loading
 
-The `.claude/` directory contains specialized skills that auto-activate based on project detection:
+**CRITICAL**: On your first message in any project session, you MUST:
 
-### Available Skills
-- **dotnet-blazor-web**: Blazor web applications with ASP.NET Core
-- **dotnet-avalonia-desktop**: Cross-platform desktop apps with Avalonia
-- **react-frontend**: React apps with TypeScript and static hosting
-- **nodejs-api**: Express APIs with TypeScript and containerization
-- **react-native-mobile**: Cross-platform mobile development
-- **unity-game-development**: Game development with modern Unity practices
+### 1. Detect Project Type
+Analyze the working directory for these indicators:
 
-### Skill Activation
-Skills automatically activate when Claude detects:
-- Relevant file patterns (*.csproj, package.json, *.unity, etc.)
-- Project structure indicators
-- Framework-specific files
+| Project Type | Detection Pattern | Skill File |
+|--------------|------------------|------------|
+| **Blazor Web** | `*.csproj` with Blazor/AspNetCore references | `.claude/skills/dotnet-blazor-web.md` |
+| **Avalonia Desktop** | `*.csproj` with Avalonia packages | `.claude/skills/dotnet-avalonia-desktop.md` |
+| **React Frontend** | `package.json` with `react` + `vite.config.ts` | `.claude/skills/react-frontend.md` |
+| **Node.js API** | `package.json` with `express` + `Dockerfile` | `.claude/skills/nodejs-api.md` |
+| **React Native** | `package.json` with `react-native` + `android/` or `ios/` | `.claude/skills/react-native-mobile.md` |
+| **Unity Game** | `*.unity` files or `Assets/` folder | `.claude/skills/unity-game-development.md` |
 
-Each skill provides:
-- Dynamic version checking for current tech stack
+### 2. Load the Skill File
+Once detected, **USE THE READ TOOL** to load the appropriate skill file from `.claude/skills/[type].md`
+
+### 3. Apply Throughout Session
+- Follow all guidance from the loaded skill file
+- Use skill-specific patterns and standards
+- Reference skill documentation for decisions
+
+### 4. Multi-Project Detection
+If multiple project types detected:
+- List all detected types
+- Ask user which project they're working on
+- Load the appropriate skill for that context
+
+Each skill file provides:
+- Dynamic version checking instructions (always check current date first)
 - Project structure templates
-- Development best practices
-- Testing and deployment strategies
-- Performance optimization guidelines
+- Technology-specific best practices
+- Testing strategies and deployment patterns
 
 ## Workflow Standards
 
@@ -121,12 +132,12 @@ Each skill provides:
 5. **Testing**: Include appropriate test setup for each project type
 6. **Security**: Never compromise on security best practices
 
-### Project Detection
-When working on a project:
-1. Analyze file structure and dependencies
-2. Auto-activate appropriate skill
-3. Apply skill-specific standards and practices
-4. Maintain consistency throughout the session
-5. Suggest modern alternatives for outdated approaches
+### Project Detection Workflow
+On first message in a project session:
+1. **Detect**: Check working directory for project type indicators (see Detection table above)
+2. **Load**: Use Read tool to load appropriate skill file from `.claude/skills/`
+3. **Confirm**: Notify user which skill was loaded
+4. **Apply**: Follow skill-specific standards throughout the session
+5. **Research**: Always check current date and research latest stable versions before suggestions
 
-This infrastructure ensures Claude provides current, consistent, and high-quality assistance across all your development projects.
+This infrastructure ensures Claude provides current, consistent, and high-quality assistance by explicitly loading project-specific guidance at the start of each session.
