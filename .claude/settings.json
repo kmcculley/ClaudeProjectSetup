@@ -1,0 +1,20 @@
+{
+  "skills": {
+    "auto_activation": true,
+    "discovery_paths": [".claude/skills"],
+    "max_context_lines": 500
+  },
+  "hooks": {
+    "enabled": true,
+    "discovery_paths": [".claude/hooks"]
+  },
+  "agents": {
+    "enabled": true,
+    "discovery_paths": [".claude/agents"]
+  },
+  "preferences": {
+    "current_date_awareness": true,
+    "always_latest_stable": true,
+    "tech_stack_detection": true
+  }
+}
